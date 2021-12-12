@@ -1,0 +1,23 @@
+{
+  "name": "utility-snippets",
+  "version": "1.0.0",
+  "description": "Usefull code snippets to use in projects",
+  "main": "customLogger.js",
+  "scripts": {
+    "dev": "nodemon customLogger.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/121Development/utility-snippets.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/121Development/utility-snippets/issues"
+  },
+  "homepage": "https://github.com/121Development/utility-snippets#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
