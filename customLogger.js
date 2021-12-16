@@ -1,51 +1,33 @@
 // Just call log() wherever and it will print current fn name and line number
-function log(){
+function log( msg, variable){
+        msg = (!msg) ? '' : `[msg] ${msg}` 
+        variable = (!variable) ? '' : `[var] ${variable}` 
     try{
         let err = new Error();
-        let caller_line = err.stack.split("\n")[2];
-        let index = caller_line.indexOf("at ");
-        let clean = caller_line.slice(index+2, caller_line.length)
-        let fileNameLong = clean.split('/')
-        let fileName = fileNameLong[fileNameLong.length -1].split(':',1)
-        let fnName = clean.split('(')[0].trim()
-        if(fnName.length > 20) { fnName = 'IFFE fn'}
-        if(fileNameLong.length === ' ') { fnName = 'IFFE fn'}
-        let lineNr =  + clean.split(':')[1].trim()
-        console.log('[logPoint] ' + fnName + ' in '+ fileName + ' @ line: '  +  lineNr)
-    } catch(e){ 
-        console.log(e )
-         }
+        let caller_line = err.stack.split("\n")[2];    
+        let fnName = caller_line.slice(caller_line.indexOf("at ")+2, caller_line.length).split('(')[0].trim()
+        let fileName = caller_line.slice(caller_line.lastIndexOf('/')+1, caller_line.indexOf(':')).trim()
+        let lineNr = caller_line.slice(caller_line.indexOf(':')+1, caller_line.lastIndexOf(':')).trim()
+        if(fnName.substring(0,1) == '/') { fnName = 'IFFE'}
+        console.log(`[log] ${fnName} in ${fileName} @ line: ${lineNr} ${msg} ${variable}`)
+    } catch(e){ console.log(e ) }
 }
 
-function foo(){ log() }
-let bar = () =>{ 
-    log() }
+// regular and arrow function examples
+function foo(){ log("test of message parameter with variable as a number", 3) }
+let bar = () =>{ log() }
 
 foo()
 bar()
 
-let IFFE = ( () =>{
-    // let err = new Error()
-    // console.log(err.stack)
-    log()
-})();
+// IFFE functions examples
+let IFFE = ( () =>{ log() })();
+(() =>{ log() })();
 
-(() =>{
-    log()
-})();
 
-     
-function log2(){
-    return console.log(arguments.callee.name)
-}
+// Other method of logging function name
+function log2(){ console.log(arguments.callee.name) }
 
-function log3(){
-    let err = new Error()
-    let caller_line = err.stack.split("\n")[2]
-    let index = caller_line.indexOf("at ")
-    let clean = caller_line.slice(index+2, caller_line.length)
-    console.log(clean)
-}
+//log2()
 
-log2()
-log3()
+
