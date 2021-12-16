@@ -1,20 +1,22 @@
 // Just call log() wherever and it will print current fn name and line number
-function log( msg?: string, variable?: string | number): void{
+function log( msg?: string, variable?: string | number, obj?: object | string): void{
     msg = (!msg) ? '' : `[msg] ${msg}` 
     variable = (!variable) ? '' : `[var] ${variable}` 
+    obj = (!obj) ? '' : `[obj] ${JSON.stringify(obj)}` 
 try{
     let err: any = new Error()
-    let caller_line = err.stack.split("\n")[2]
-    let fnName = caller_line.slice(caller_line.indexOf("at ")+2, caller_line.length).split('(')[0].trim()
-    let fileName = caller_line.slice(caller_line.lastIndexOf('/')+1, caller_line.indexOf(':')).trim()
-    let lineNr = caller_line.slice(caller_line.indexOf(':')+1, caller_line.lastIndexOf(':')).trim()
+    let cl = err.stack.split("\n")[2]
+    let fnName = cl.slice(cl.indexOf("at ")+2, cl.length).split('(')[0].trim()
+    let fileName = cl.slice(cl.lastIndexOf('/')+1, cl.indexOf(':')).trim()
+    let lineNr = cl.slice(cl.indexOf(':')+1, cl.lastIndexOf(':')).trim()
     if(fnName.substring(0,1) == '/') { fnName = 'IFFE'}
-    console.log(`[log] ${fnName} in ${fileName} @ line: ${lineNr} ${msg} ${variable}`)
-} catch(e){ console.log(e) }
+    console.log(`[log] ${fnName} in ${fileName} @ line: ${lineNr} ${msg} ${variable} ${obj}`)
+    } catch(e){ console.log(e) }
 }
-
 // regular and arrow function examples
-function foo(): void{ log("test of message parameter with variable as a number", 3) }
+function foo(): void{ 
+    let o = new Object({name: "Baz"})
+    log("test message w variable", 3, o) }
 const bar = () =>{ log() }
 
 foo()
