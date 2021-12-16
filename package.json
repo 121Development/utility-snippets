@@ -4,7 +4,7 @@
   "description": "Usefull code snippets to use in projects",
   "main": "customLogger.js",
   "scripts": {
-    "dev": "nodemon customLogger.js"
+    "dev": "nodemon customLogger.ts"
   },
   "repository": {
     "type": "git",
